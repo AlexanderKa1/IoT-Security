@@ -1,6 +1,6 @@
 # IoT-Security
 
-#**************************************************#
-Guys, please read the overview.docx and ipsec.docx #
+
+#Guys, please read the overview.docx and ipsec.docx #
 #--------------------------------------------------#
 
