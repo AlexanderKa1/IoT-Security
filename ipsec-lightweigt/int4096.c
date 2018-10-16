@@ -1,3 +1,6 @@
+#include "int4096.h"
+
+
 struct int4096
 {
 	unsigned long int n[128];//32bits*128
