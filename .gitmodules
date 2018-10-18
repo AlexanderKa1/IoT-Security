@@ -1,0 +1,3 @@
+[submodule "rasp-pi-door/pi-rc522"]
+	path = rasp-pi-door/pi-rc522
+	url = git://github.com/ondryaso/pi-rc522.git
