@@ -1,9 +1,11 @@
 import bsp
 import time
 
+def click(x):
+    x.on()
+    time.sleep(0.2)
+    x.off()
 
-bsp.switch_module[0].on()
-time.sleep(0.2)
-bsp.switch_module[0].off()
-
-
+click(bsp.sw_module[0])
+time.sleep(1)
+click(bsp.sw_module[1])
