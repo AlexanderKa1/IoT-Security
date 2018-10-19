@@ -20,7 +20,6 @@ os.system('ip -6 addr add 2607:f2c0:e344:a02::2:2/64 dev wlan0')
 s = socket.socket(socket.AF_INET6,socket.SOCK_DGRAM)
 s.setsockopt(socket.SOL_SOCKET,socket.SO_REUSEADDR,1)
 s.bind(('2607:f2c0:e344:a02::2:2',7000))
-
 s.connect(('2607:f2c0:e344:a02::2:3',7000))
 #-----------------------------------------------------------------#
 def callback(uid):
