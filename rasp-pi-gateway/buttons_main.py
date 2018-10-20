@@ -26,9 +26,11 @@ s.bind(('2607:f2c0:e344:a02::3:2',7000))
 s.connect(server)
 #-----------------------------------------------------------------#
 def callback(addr):
+    global s
     t = time.time()
     ipv6 = str(ipaddress.IPv6Address(addr))
     print('click:',ipv6)
+    s.send(str([1,ipv6]).encode())
 
 bsp.buttons_mo[0].register(callback)
 bsp.buttons_mo[1].register(callback)
