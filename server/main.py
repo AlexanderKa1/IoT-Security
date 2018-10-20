@@ -9,10 +9,11 @@ s.bind(('::',7000))
 #app_acl = l7_acl.acl()
 
 while True:
-    data,addr = s.recvfrom()
+    data,addr = s.recvfrom(1000)
     #addr_acl.acl(addr)
     #app_acl.acl(data)
-    if addr == ('2607:f2c0:e344:a02::3:2',7000):
+    print(data,addr)
+    if addr[0] == '2607:f2c0:e344:a02::3:2':
         #|---------------------128 bits--------------------|#
 
         # ------------------------------------------------- #
