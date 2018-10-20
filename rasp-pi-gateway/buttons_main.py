@@ -26,6 +26,7 @@ s.bind(('2607:f2c0:e344:a02::3:2',7000))
 s.connect(server)
 #-----------------------------------------------------------------#
 def callback(addr):
+    t = time.time()
     ipv6 = str(ipaddress.IPv6Address(addr))
     print('click:',ipv6)
 
