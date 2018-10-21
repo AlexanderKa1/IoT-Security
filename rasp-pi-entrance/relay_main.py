@@ -32,7 +32,7 @@ s.setsockopt(socket.SOL_SOCKET,socket.SO_REUSEADDR,1)
 s.bind(('2607:f2c0:e344:a02::2:3',7000))
 #-----------------------------------------------------------------------
 while True:
-    data = s.recv(100)
+    data = s.recv(1000)
     pack = eval(data.decode())
     print(pack)
     how[pack[0]]()

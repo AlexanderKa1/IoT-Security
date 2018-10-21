@@ -15,17 +15,16 @@ import ipaddress
 
 p = rfid.rfid()#RFID init
 
-server = ('2607:f2c0:e344:a02::2:3',7000)
-
-what = {'scan':1}
+server = ('2607:f2c0:e344:a01::6665',7000)
+bind_addr = ('2607:f2c0:e344:a02::2:2',7000)
+what = {'scan':1001}
 
 #network init
 #-----------------------------------------------------------------#
 os.system('ip -6 addr add 2607:f2c0:e344:a02::2:2/64 dev wlan0')
 s = socket.socket(socket.AF_INET6,socket.SOCK_DGRAM)
 s.setsockopt(socket.SOL_SOCKET,socket.SO_REUSEADDR,1)
-s.bind(('2607:f2c0:e344:a02::2:2',7000))
-s.connect(server)
+s.bind(bind_addr)
 s.connect(server)
 #-----------------------------------------------------------------#
 def callback(uid):
@@ -41,14 +40,14 @@ def callback(uid):
         return
     if p.db[uid] == 'Alice':
         print('Alice',addr)
-        s.send(str((what['scan'],ipv6)).encode())
+        s.send(str([what['scan'],ipv6]).encode())
         return
     if p.db[uid] == 'Bob':
         print('Bob',addr)
-        s.send(str((what['scan'],ipv6)).encode())
+        s.send(str([what['scan'],ipv6]).encode())
         return
     print(p.db[uid],addr)
-    s.send(str((what['scan'],ipv6)).encode())
+    s.send(str([what['scan'],ipv6]).encode())
 
 while True:
     p.thread(callback)
