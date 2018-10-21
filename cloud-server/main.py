@@ -8,16 +8,26 @@ s.bind(('::',7000))
 #addr_acl = l3_acl.acl()
 #app_acl = l7_acl.acl()
 
+what = {\
+        1001:'scan',\
+        1002:'push'\
+        }
+
+how = {\
+        'unlock':2001,\
+        'on':2002\
+        }
+ 
 while True:
     data,addr = s.recvfrom(1000)
     #addr_acl.acl(addr)
     #app_acl.acl(data)
-    print(data,addr)
+    #
     if addr[0] == '2607:f2c0:e344:a02::3:2':
         #|---------------------128 bits--------------------|#
 
         # ------------------------------------------------- #
-        #|ver|    flags    |length|       datagram ID      |#
+        #|ver|length |   length   |       datagram ID      |#
         # ------------------------------------------------- #
         #|          what          |           when         |#
         # ------------------------------------------------- #
@@ -28,7 +38,11 @@ while True:
         #|                    appendix                     |#
         # ------------------------------------------------- #
         pack = eval(data.decode())
-        print(pack)#[what,when,where,which/who,appendix]
-        rule = [1,'any','2607:f2c0:e344:a02::3:2','2607:f2c0:e344:a03::']
-        action = [1,0,'2607:f2c0:e344:a02::2:3','::1','?']
-        #if pack[1] == 
+        print([what[pack[0]],pack[1],pack[2],pack[3],pack[4]])#[what,when,where,which/who,appendix]
+        s.sendto(str([1]).encode(),('2607:f2c0:e344:a02::2:3',7000))
+
+    if addr[0] == '2607:f2c0:e344:a02::2:2':
+        pack = eval(data.decode())
+        print([what[pack[0]]])#[what,when,where,which/who,appendix]
+        s.sendto(str([1]).encode(),('2607:f2c0:e344:a02::2:3',7000))
+
