@@ -15,7 +15,7 @@ import struct
 
 server_addr = ('2607:f2c0:e344:a01::6665',7000)
 bind_addr = ('2607:f2c0:e344:a02::3:2',7000)
-what = {'click':1}
+what = {'push':1002}
 
 #network init
 #-----------------------------------------------------------------#
@@ -30,7 +30,7 @@ def callback(addr):
     t = time.time()
     ipv6 = str(ipaddress.IPv6Address(addr))
     print('click:',ipv6)
-    s.send(str([1,time.time(),bind_addr[0],ipv6,None]).encode())
+    s.send(str([what['push'],time.time(),bind_addr[0],ipv6,None]).encode())
 
 bsp.buttons_mo[0].register(callback)
 bsp.buttons_mo[1].register(callback)
