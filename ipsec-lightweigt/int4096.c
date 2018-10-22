@@ -1,29 +1,51 @@
+#include <stdio.h>
+#include "main.h"
 #include "int4096.h"
-
-
-struct int4096
+//*******************************************************//
+//return = a == b
+bool equal_int4096_int4096(int4096 a,int4096 b)
 {
-	unsigned long int n[128];//32bits*128
-};
-
-struct int4096 add_int4096_int4096(struct int4096 a,struct int4096 b)
+	for(int i=0;i != 128;++i)
+	{
+		if(a.n[i] != b.n[i])
+                {
+			return 0;
+		}
+	}
+	return 1;
+}
+//*******************************************************//
+//return = a & b
+int4096 and_int4096_int4096(int4096 a,int4096 b)
 {
-	struct int4096 tmp = { {0} };
+	int4096 tmp = { {0} };
+	for(int i=0;i != 128;++i)
+	{
+		tmp.n[i] = a.n[i] & b.n[i];
+	}
+	return tmp;
+}
+//*******************************************************//
+//return = a + b
+int4096 add_int4096_int4096(int4096 a,int4096 b)
+{
+	int4096 tmp = { {0} };
 	for(int n=0;n != 128;++n)
 	{
 		unsigned long long int tmp1 = a.n[n];
 		unsigned long long int tmp2 = b.n[n];
-		tmp1 = tmp1 + tmp2;
-		if(n < 127)tmp.n[n+1] = (tmp1 >> 32) + tmp.n[n+1];
-		tmp.n[n] = (tmp1 << 32) >> 32 + tmp.n[n];
+		unsigned long long int tmp3 = tmp.n[n];
+		tmp1 = tmp1 + tmp2 + tmp3;
+		if(n+1 < 128)tmp.n[n+1] = (tmp1 >> 32);
+		tmp.n[n] = tmp1 & 0xFFFFFFFF;
 	}
 	return tmp;
 }
-
-
-struct int4096 sub_int4096_int4096(struct int4096 a,struct int4096 b)
+//*******************************************************//
+//return = a - b
+int4096 sub_int4096_int4096(int4096 a,int4096 b)
 {
-	struct int4096 tmp = { {0} };
+	int4096 tmp = { {0} };
 	for(int n=0;n != 128;++n)
 	{
 		unsigned long long int tmp1 = a.n[n];
@@ -32,74 +54,107 @@ struct int4096 sub_int4096_int4096(struct int4096 a,struct int4096 b)
 		if(tmp3 >> 31 == 1)tmp3+=0xFFFFFFFF00000000; 
 		tmp1 = tmp1 - tmp2 + tmp3;
 		if(n < 127)tmp.n[n+1] = (tmp1 >> 32);
-		tmp.n[n] = (tmp1 << 32) >> 32;
+		tmp.n[n] = tmp1 & 0xFFFFFFFF;
 	}
 	return tmp;
 }
-
-
-
-struct int4096 mul_int4096_int4096(struct int4096 a,struct int4096 b)
+//*******************************************************//
+//return = a * b
+int4096 mul_int4096_int4096(int4096 a,int4096 b)
 {
-	struct int4096 tmp = { {0} };
+	int4096 tmp = { {0} };
 	for(int n=0;n != 128;++n)
 	{
-		for(int j=0;j != 128;++j)
+		for(int j=0;j != 127-n;++j)
 		{
-			if(n+j<128)
+			int4096 tmp3 = { {0} };
+			unsigned long long int tmp1 = (unsigned long long int)b.n[n] * (unsigned long long int)a.n[j];
+			tmp3.n[n+j] = (unsigned long int)(tmp1 & 0xFFFFFFFFULL);
+			if((n+j+1)<128)
 			{
-				unsigned long long int tmp1;
-				struct int4096 tmp2 = { {0} };
-				tmp1 = a.n[n] * b.n[j];
-				tmp2.n[n+j+1] = (tmp1 >> 32) + tmp2.n[n+j+1];
-				tmp2.n[n+j] = (tmp1 << 32) >> 32 + tmp2.n[n+j];
-				tmp = add_int4096_int4096(tmp,tmp2);
+				tmp3.n[n+j+1] = (unsigned long int)(tmp1 >> 32);
 			}
+			tmp = add_int4096_int4096(tmp,tmp3);
 		}
 	}
 	return tmp;
 }
-
-struct int4096 mod_int4096_int4096(struct int4096 a,struct int4096 b)
+//**************************************************************
+int4096 left_one_int4096_int4096(int4096 n,bool tmp_bit)
 {
-	struct int4096 tmp = { {0} };
-	for(int i = 0;i != 4096;++i)
+	for(int i=0;i != 128;++i)
 	{
-		struct int4096 tmp2 = {{a.n[4095-n]}};
-		tmp = add_int4096_int4096(tmp,tmp2);
-
+		unsigned long long int tmp1 = n.n[i];
+		tmp1 = tmp1 << 1;
+		tmp1 += tmp_bit;
+		tmp_bit = (bool)(tmp1&0x100000000ULL);
+		n.n[i] = (unsigned long long int)(tmp1&0xFFFFFFFFULL);
 	}
+	return n;
 }
-
-void printf_int4096(struct int4096 a)
+//*******************************************************//
+//return = a / b
+int4096 div_int4096_int4096(int4096 a,int4096 b)
 {
-	for(int i=127;i >= 0;--i)
+	int4096 tmp = { {0} };
+	int4096 res = { {0} };
+	
+	for(int i = 4095;i >= 0;--i)
 	{
-		printf("%08X",a.n[i]);
+		tmp = left_one_int4096_int4096(tmp,(bool)((0x1<<(i&0x1F))&a.n[(i&0xFE0)>>5]));
+		if(sub_int4096_int4096(tmp,b).n[127]&0x80000000)//-
+		{
+			res.n[(i&0xFE0)>>5] = res.n[(i&0xFE0)>>5] & ~(0x1<<(i&0x1F));
+		}
+		else//+
+		{
+			tmp = sub_int4096_int4096(tmp,b);
+			res.n[(i&0xFE0)>>5] = res.n[(i&0xFE0)>>5] | (0x1<<(i&0x1F));
+		}
+	}
+	return res;
+}
+//*******************************************************//
+//return = a % b
+int4096 mod_int4096_int4096(int4096 a,int4096 b)
+{
+	int4096 tmp = { {0} };
+	//printf("enter\n");
+	
+	for(int i = 4095;i >= 0;--i)
+	{
+		//printf("%d\n",i);
+		tmp = left_one_int4096_int4096(tmp,(bool)((0x1<<(i&0x1F))&a.n[(i&0xFE0)>>5]));
+		if(!(sub_int4096_int4096(tmp,b).n[127]&0x80000000))//+
+		{
+			tmp = sub_int4096_int4096(tmp,b);
+		}
+	}
+	return tmp;
+}
+//********************************************************//
+//print a
+void printf_int4096(int4096 a,int bits)
+{
+	for(int i=127-(4096-bits)/32;i >= 0;--i)
+	{
+		printf("%08llx",(0xFFFFFFFFULL)&(unsigned long long int)a.n[i]);
 	}
 	printf("\n");
 }
 
-struct int4096 step_mul(unsigned int n)
-{
-	if(n > 1)
-	{
-		struct int4096 a = { {n} };
-		return mul_int4096_int4096(step_mul(n - 1),a);
-	}
-	else
-	{
-		struct int4096 a = { {1} };
-		return a;
-	}
-}
-
-
-
+#ifdef TEST_INT4096
 int main()
 {
-	struct int4096 a = { {60} };
-	struct int4096 b = { {55} };
-	printf_int4096(sub_int4096_int4096(a,b));
+	int4096 a = { {0x916f7671,0xf58ef549,0x93b877ca,0x962d1043,0xeeb892d6,0xa325a5d9,0x362e1f21,0x1950bd9b} };
+	//7**90=1950bd9b  362e1f21  a325a5d9  eeb892d6  962d1043  93b877ca  f58ef549  916f7671
+	int4096 b = { {0x00000363} };
+	int4096 c = { {0x0} };
+	printf("start\n");
+	c = div_int4096_int4096(a,b);
+	printf_int4096(c);
+	c = mod_int4096_int4096(a,b);
+	printf_int4096(c);
 	return 0;
 }
+#endif
