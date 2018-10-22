@@ -124,13 +124,20 @@ static void udp_server_task(void *pvParameters)
         struct sockaddr_in6 destAddr;
         bzero(&destAddr.sin6_addr.un, sizeof(destAddr.sin6_addr.un));
         destAddr.sin6_family = AF_INET6;
-        destAddr.sin6_port = htons(PORT);
+
+        //destAddr.sin6_port = htons(PORT);
+        destAddr.sin6_port = 0;
+
         addr_family = AF_INET6;
-        ip_protocol = IPPROTO_IPV6;
+
+        //ip_protocol = IPPROTO_IPV6;
+        ip_protocol = 50;
+
         inet6_ntoa_r(destAddr.sin6_addr, addr_str, sizeof(addr_str) - 1);
 #endif
 
-        int sock = socket(addr_family, SOCK_DGRAM, ip_protocol);
+        //int sock = socket(addr_family, SOCK_DGRAM, ip_protocol);
+        int sock = socket(addr_family, SOCK_RAW, ip_protocol);
         if (sock < 0) {
             ESP_LOGE(TAG, "Unable to create socket: errno %d", errno);
             break;
@@ -166,9 +173,9 @@ static void udp_server_task(void *pvParameters)
 
                 rx_buffer[len] = 0; // Null-terminate whatever we received and treat like a string...
                 ESP_LOGI(TAG, "Received %d bytes from %s:", len, addr_str);
-                ESP_LOGI(TAG, "%s", rx_buffer);
-
-                int err = sendto(sock, rx_buffer, len, 0, (struct sockaddr *)&sourceAddr, sizeof(sourceAddr));
+                ESP_LOGI(TAG, "%s", &rx_buffer[40]);
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                int err = sendto(sock, &rx_buffer[40], len-40, 0, (struct sockaddr *)&sourceAddr, sizeof(sourceAddr));
                 if (err < 0) {
                     ESP_LOGE(TAG, "Error occured during sending: errno %d", errno);
                     break;

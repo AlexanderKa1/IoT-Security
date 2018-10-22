@@ -71,6 +71,8 @@ void app_main()
     //disable pull-up mode
     io_conf.pull_up_en = 0;
     //configure GPIO with the given settings
+    gpio_set_level(GPIO_OUTPUT_IO_0, 1);
+    gpio_set_level(GPIO_OUTPUT_IO_1, 1);
     gpio_config(&io_conf);
 
     //interrupt of rising edge
@@ -106,9 +108,9 @@ void app_main()
     int cnt = 0;
     while(1) {
         printf("cnt: %d\n", cnt++);
-        vTaskDelay(1000 / portTICK_RATE_MS);
-        gpio_set_level(GPIO_OUTPUT_IO_0, cnt % 2);
-        gpio_set_level(GPIO_OUTPUT_IO_1, cnt % 2);
+        vTaskDelay(3000 / portTICK_RATE_MS);
+        //gpio_set_level(GPIO_OUTPUT_IO_0, cnt % 2);
+        //gpio_set_level(GPIO_OUTPUT_IO_1, cnt % 2);
     }
 }
 
