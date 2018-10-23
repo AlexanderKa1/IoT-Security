@@ -17,6 +17,9 @@
 #include "esp_log.h"
 #include "nvs_flash.h"
 
+#include "ipsec.h"
+#include "main.h"
+
 #include "lwip/err.h"
 #include "lwip/sockets.h"
 #include "lwip/sys.h"
@@ -105,7 +108,7 @@ static void wait_for_ip()
 
 static void udp_server_task(void *pvParameters)
 {
-    char rx_buffer[128];
+    char rx_buffer[512];
     char addr_str[128];
     int addr_family;
     int ip_protocol;
@@ -174,8 +177,13 @@ static void udp_server_task(void *pvParameters)
                 rx_buffer[len] = 0; // Null-terminate whatever we received and treat like a string...
                 ESP_LOGI(TAG, "Received %d bytes from %s:", len, addr_str);
                 ESP_LOGI(TAG, "%s", &rx_buffer[40]);
+                {//handler
+                    
+                    ipsec_recv_filter((uint8_t*)&rx_buffer[40]);
+                    data_handler(&rx_buffer[40],80);
+                }
 ////////////////////////////////////////////////////////////////////////
-                int err = sendto(sock, &rx_buffer[40], len-40, 0, (struct sockaddr *)&sourceAddr, sizeof(sourceAddr));
+                //int err = sendto(sock, &rx_buffer[40], len-40, 0, (struct sockaddr *)&sourceAddr, sizeof(sourceAddr));
                 if (err < 0) {
                     ESP_LOGE(TAG, "Error occured during sending: errno %d", errno);
                     break;

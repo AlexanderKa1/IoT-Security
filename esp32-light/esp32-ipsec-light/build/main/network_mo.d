@@ -139,6 +139,8 @@ network_mo.o: \
  /home/ark/Desktop/esp/esp-idf/components/nvs_flash/include/nvs.h \
  /home/ark/Desktop/esp/esp-idf/components/spi_flash/include/esp_partition.h \
  /home/ark/Desktop/esp/esp-idf/components/spi_flash/include/esp_spi_flash.h \
+ /home/ark/Desktop/IoT-Security/esp32-light/esp32-ipsec-light/main/ipsec.h \
+ /home/ark/Desktop/IoT-Security/esp32-light/esp32-ipsec-light/main/main.h \
  /home/ark/Desktop/esp/esp-idf/components/lwip/lwip/src/include/lwip/err.h \
  /home/ark/Desktop/esp/esp-idf/components/lwip/lwip/src/include/lwip/sockets.h \
  /home/ark/Desktop/esp/esp-idf/components/lwip/lwip/src/include/lwip/inet.h \
@@ -423,6 +425,10 @@ network_mo.o: \
 /home/ark/Desktop/esp/esp-idf/components/spi_flash/include/esp_partition.h:
 
 /home/ark/Desktop/esp/esp-idf/components/spi_flash/include/esp_spi_flash.h:
+
+/home/ark/Desktop/IoT-Security/esp32-light/esp32-ipsec-light/main/ipsec.h:
+
+/home/ark/Desktop/IoT-Security/esp32-light/esp32-ipsec-light/main/main.h:
 
 /home/ark/Desktop/esp/esp-idf/components/lwip/lwip/src/include/lwip/err.h:
 

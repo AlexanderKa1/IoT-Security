@@ -13,6 +13,9 @@
 #include "network_mo.h"
 #include "relay_mo.h"
 #include "tty_mo.h"
+#include "main.h"
+
+static const char *TAG = "example";
 
 RELAY_MO relay_mo;
 
@@ -28,12 +31,26 @@ void off()
     relay_mo.relay[1].off();
 }
 
+void data_handler(char* data,int len)
+{
+    DATAGRAM d = *(DATAGRAM*)data;
+    switch(d.what)
+    {
+    case 1001:
+        on();
+        break;
+    case 1002:
+        off();
+        break;
+    }
+}
+
 void app_main()
 {
     ESP_ERROR_CHECK( nvs_flash_init() );
     tty_init();
     relay_mo = relay_init();
-    
-    ESP_LOGI(TAG, "CreateTasks");
-    
+    network_init();
+
+    ESP_LOGI(TAG, "Inited");    
 }

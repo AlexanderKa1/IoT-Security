@@ -1,6 +1,11 @@
 set(COMPONENT_SRCS "main.c")
 set(COMPONENT_SRCS "relay_mo.c")
-#set(COMPONENT_SRCS "network_mo.c")
+set(COMPONENT_SRCS "network_mo.c")
+set(COMPONENT_SRCS "diffie-hellman.c")
+set(COMPONENT_SRCS "ike.c")
+set(COMPONENT_SRCS "int4096.c")
+set(COMPONENT_SRCS "ipsec.c")
+set(COMPONENT_SRCS "aes.c")
 set(COMPONENT_ADD_INCLUDEDIRS ".")
 
 register_component()

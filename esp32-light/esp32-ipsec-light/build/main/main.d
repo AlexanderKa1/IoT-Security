@@ -151,7 +151,9 @@ main.o: \
  /home/ark/Desktop/esp/esp-idf/components/esp_ringbuf/include/freertos/ringbuf.h \
  /home/ark/Desktop/esp/esp-idf/components/soc/esp32/include/soc/uart_channel.h \
  /home/ark/Desktop/IoT-Security/esp32-light/esp32-ipsec-light/main/network_mo.h \
- /home/ark/Desktop/IoT-Security/esp32-light/esp32-ipsec-light/main/relay_mo.h
+ /home/ark/Desktop/IoT-Security/esp32-light/esp32-ipsec-light/main/relay_mo.h \
+ /home/ark/Desktop/IoT-Security/esp32-light/esp32-ipsec-light/main/tty_mo.h \
+ /home/ark/Desktop/IoT-Security/esp32-light/esp32-ipsec-light/main/main.h
 
 /home/ark/Desktop/esp/esp-idf/components/newlib/include/string.h:
 
@@ -456,4 +458,8 @@ main.o: \
 /home/ark/Desktop/IoT-Security/esp32-light/esp32-ipsec-light/main/network_mo.h:
 
 /home/ark/Desktop/IoT-Security/esp32-light/esp32-ipsec-light/main/relay_mo.h:
+
+/home/ark/Desktop/IoT-Security/esp32-light/esp32-ipsec-light/main/tty_mo.h:
+
+/home/ark/Desktop/IoT-Security/esp32-light/esp32-ipsec-light/main/main.h:
 /home/ark/Desktop/IoT-Security/esp32-light/esp32-ipsec-light/main/./main.c:
