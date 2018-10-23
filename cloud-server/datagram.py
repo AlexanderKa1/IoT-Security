@@ -28,7 +28,7 @@
 # ------------------------------------------------- #
 
 import ipaddress
-
+import struct
 
 class raw_datagram(bytes):
     def decode(self):
