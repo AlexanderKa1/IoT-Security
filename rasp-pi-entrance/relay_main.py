@@ -33,13 +33,13 @@ s.bind(('2607:f2c0:e344:a02::2:3',7000))
 
 while True:
     data = s.recv(1000)
-    g = raw_datagram(data).decode()
+    g = datagram.raw_datagram(data).decode()
     print('recv:',g)
-    if objects.how[g['what_how']] == 'unlock':
+    if objects.how_ip_name[g['what_how']] == 'unlock':
         unlock()
-    if objects.how[g['what_how']] == 'on':
+    if objects.how_ip_name[g['what_how']] == 'on':
         on()
-    if objects.how[g['what_how']] == 'off':
+    if objects.how_ip_name[g['what_how']] == 'off':
         off()
 
    

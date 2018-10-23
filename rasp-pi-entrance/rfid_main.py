@@ -42,6 +42,8 @@ def callback(uid):
         g = datagram.dict_datagram()
         g['what_how'] = objects.what['scan']
         g['when'] = time.time()
+        g['where'] = ipaddress.IPv6Address(objects.objects['entrance_rfid'])
+        g['which_who'] = ipv6
         s.send(g.encode())
 
 while True:

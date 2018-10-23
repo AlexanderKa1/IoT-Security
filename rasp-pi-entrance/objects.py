@@ -13,7 +13,7 @@ objects = {'gateway_buttons':'2607:f2c0:e344:a02::3:2',
 objects_name_ip = objects
 objects_ip_name = {v: k for k,v in objects.items()}
 
-persons = {'anyone':'::'
+persons = {'anyone':'::',
            'ark':'2607:f2c0:e344:a03:2::1',
            'alice':'2607:f2c0:e344:a03:2::2',
            'bob':'2607:f2c0:e344:a03:2::3',
