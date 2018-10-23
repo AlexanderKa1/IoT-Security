@@ -3,6 +3,8 @@ import time
 import threading
 import os
 import socket
+import datagram
+import objects
 
 def nothing(append=None):
     pass
@@ -14,9 +16,6 @@ def on(append=None):
 def off(append=None):
     bsp.sw_module[0].off()
     bsp.sw_module[1].off()
-
-how = {0:nothing,1:unlock,2:on,3:off}
-
 def click(x):
     x[0].on()
     x[1].on()
@@ -31,9 +30,17 @@ s = socket.socket(socket.AF_INET6,socket.SOCK_DGRAM)
 s.setsockopt(socket.SOL_SOCKET,socket.SO_REUSEADDR,1)
 s.bind(('2607:f2c0:e344:a02::2:3',7000))
 #-----------------------------------------------------------------------
+
 while True:
     data = s.recv(1000)
-    pack = eval(data.decode())
-    print(pack)
-    how[pack[0]]()
+    g = raw_datagram(data).decode()
+    print('recv:',g)
+    if objects.how[g['what_how']] == 'unlock':
+        unlock()
+    if objects.how[g['what_how']] == 'on':
+        on()
+    if objects.how[g['what_how']] == 'off':
+        off()
+
+   
 
