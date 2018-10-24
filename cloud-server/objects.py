@@ -1,6 +1,3 @@
-
-
-
 objects = {'gateway_buttons':'2607:f2c0:e344:a02::3:2',
            'gateway_buttons_0':'2607:f2c0:e344:a03:3:0:1:0',
            'gateway_buttons_1':'2607:f2c0:e344:a03:3:0:1:1',

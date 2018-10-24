@@ -1,6 +1,11 @@
+#!/usr/bin/python3
+#-----------------------------------------------------------------#
+#                               Ark Sun                           #
+#                             2018-10-20                          #
+#                        arksun9481@gmail.com                     #
+#-----------------------------------------------------------------#
+
 import socket
-import l3_acl
-import l7_acl
 import ipaddress
 import datagram
 import objects
