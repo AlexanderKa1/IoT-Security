@@ -2,10 +2,10 @@
 
 
 objects = {'gateway_buttons':'2607:f2c0:e344:a02::3:2',
-           'gateway_buttons_0':'2607:f2c0:e344:a03:3::1:0',
-           'gateway_buttons_1':'2607:f2c0:e344:a03:3::1:1',
-           'gateway_buttons_2':'2607:f2c0:e344:a03:3::1:2',
-           'gateway_buttons_3':'2607:f2c0:e344:a03:3::1:3',
+           'gateway_buttons_0':'2607:f2c0:e344:a03:3:0:1:0',
+           'gateway_buttons_1':'2607:f2c0:e344:a03:3:0:1:1',
+           'gateway_buttons_2':'2607:f2c0:e344:a03:3:0:1:2',
+           'gateway_buttons_3':'2607:f2c0:e344:a03:3:0:1:3',
            'entrance_rfid':'2607:f2c0:e344:a02::2:2',
            'alice_card':'2607:f2c0:e344:a03:1:46:39de:13b2',
            'bob_card':'2607:f2c0:e344:a03:1:46:8333:14e2',

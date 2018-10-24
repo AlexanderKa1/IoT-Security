@@ -24,6 +24,8 @@ s2.connect(('2607:F2C0:E344:A02:260A:C4FF:FE0F:C338',0))
 rule = [
        ('permit',('scan','any','entrance_rfid','any'),('unlock','now','entrance_lock','entrance_lock')),
        ('permit',('push','any','gateway_buttons','gateway_buttons_3'),('unlock','now','entrance_lock','entrance_lock')),
+       ('permit',('push','any','gateway_buttons','gateway_buttons_0'),('off','now','light_relay','light_relay')),
+       ('permit',('push','any','gateway_buttons','gateway_buttons_1'),('on','now','light_relay','light_relay')),
        ('deny',('scan','any','entrance_rfid','any')),
        ]
 
@@ -52,6 +54,23 @@ def match(r,x):
         return True
     elif r == x:
         return True
+    elif r=='weekday':
+        weekday = {'Monday','Tuesday','Wednesday','Thursday','Friday'}
+        if time.strftime("%A",time.localtime(x)) in weekday:
+            return True
+        else:
+            return False
+    elif r=='weekends':
+        weekend = {'Saturday','Sunday'}
+        if time.strftime("%A",time.localtime(x)) in weekend:
+            return True
+        else:
+            return False
+    elif r=='9am4pm':
+        if int(time.strftime("%H",time.localtime(x))) in range(9,16):
+            return True
+        else:
+            return False
     else:
         return False
 
@@ -87,7 +106,7 @@ l3_rule = {'2607:f2c0:e344:a02::2:2',
 
 
 def l3_acl(addr):
-    if addr[0] == '2607:f2c0:e344:a02::2:2':
+    if addr[0] in l3_rule:
         return True
     else:
         return False
@@ -136,13 +155,45 @@ def server(a):
     if a[0] == 'acl':
         return 'acl'
     return 'server'
+
+rule_now = 'default'
+edit = 'default'
 def acl(a):
+    global rules,rule,rule_now,edit
     if a == []:
         return 'acl'
     if a[0] == 'show':
+        print('rule now:',rule_now)
+        print('editing:',edit)
+        print('rules:\n')
+        for i in rules:
+            print(i,':')
+            for j in rules[i]:
+                print(j)
+        print('\n\nSyntex: [permit/deny] [what] [when] [where] [which] [how] [when] [where] [which]')
         return 'acl'
+    if a[0] == 'permit':
+        rules[edit].append(('permit',tuple(a[1:5]),tuple(a[5:9])))
+    if a[0] == 'deny':
+        rules[edit].append(('deny',tuple(a[1:5])))
+    if a[0] == 'del':
+        del rules[a[1]]
+    if a[0] == '?':
+        print('    acl       apply acl to the server')
+        print('    edit      edit acl')
+        print('    permit    permit rule')
+        print('    deny      deny rule')
+        print('    del       del acl')
+        print('    exit      exit to last menu')
+        print()
+    if a[0] == 'edit':
+        edit = a[1]
+        if a[1] not in rules:
+            rules[a[1]]=[]
     if a[0] == 'exit':
         return 'server'
+    if a[0] == 'acl':
+        rule = rules[a[1]]
     return 'acl'
 
 def cli_main():
