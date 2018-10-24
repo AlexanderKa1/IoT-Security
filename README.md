@@ -1,9 +1,9 @@
 # IoT-Security
-#***************************************************#
-#                      Ark Sun                      #
-#                     2018-10-23                    #
-#                 arksun9481@gmail.com              #
-#***************************************************#
+----------------------------------------------------
+|                     Ark Sun                      |
+|                    2018-10-23                    |
+|                arksun9481@gmail.com              |
+----------------------------------------------------
 #Guys, please read the overview.docx and ipsec.docx#
 
 This IoT-Security project implemented a system that constains 3 endpoints and 1 cloud server
