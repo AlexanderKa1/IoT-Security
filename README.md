@@ -4,7 +4,7 @@ Author: Ark Sun
 2018-10-23
 E-mail: arksun9481@gmail.com
 
-*Guys, please read the instruction.docx, overview.docx and ipsec.docx
+*Guys, please read the instruction.docx, hardwares.docx and ipsec.docx
 
 This IoT-Security project implemented a system that constains 3 endpoints and 1 cloud server
 
