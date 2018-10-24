@@ -11,6 +11,7 @@ import os
 import socket
 import datagram
 import objects
+import ipaddress
 #****************************************************#
 server_addr = ('2607:f2c0:e344:a01::6665',7000)
 bind_addr = ('2607:f2c0:e344:a02::3:2',7000)
@@ -29,13 +30,17 @@ flag = True
 
 def callback(addr):
     global s
-    print('click:',ipv6)
+    print('click:',ipaddress.IPv6Address(addr))
     g = datagram.dict_datagram()
     g['what_how'] = objects.what['push']
     g['when'] = time.time()
     g['where'] = ipaddress.IPv6Address(objects.objects['gateway_buttons'])
     g['which_who'] = ipaddress.IPv6Address(addr)
-    s.send(g.encode())
+    try:
+        s.send(g.encode())
+    except ConnectionRefusedError:
+        print('lose connection')
+    
 
 bsp.buttons_mo[0].register(callback)
 bsp.buttons_mo[1].register(callback)
