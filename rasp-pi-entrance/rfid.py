@@ -4,7 +4,6 @@
 #                      2018-10-18                   #
 #                arksun9481@gmail.com               #
 #---------------------------------------------------#
-
 import signal
 import time
 import sys
