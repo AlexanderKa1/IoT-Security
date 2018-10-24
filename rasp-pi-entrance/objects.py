@@ -12,7 +12,9 @@ objects = {'gateway_buttons':'2607:f2c0:e344:a02::3:2',
            'ark_card':'2607:f2c0:e344:a03:1:79:4bc4:c533',
            'eve_card':'2607:f2c0:e344:a03:1:63:c7c4:c5a5',
            'entrance_lock':'2607:f2c0:e344:a02::2:3',
-           'light_relay':'2607:F2C0:E344:A02:260A:C4FF:FE0F:C338'}
+           'light_relay':'2607:F2C0:E344:A02:260A:C4FF:FE0F:C338',
+           'light_relay_0':'2607:f2c0:e344:a03:3::2:0',
+           'light_relay_1':'2607:f2c0:e344:a03:3::2:1'}
 objects_name_ip = objects
 objects_ip_name = {v: k for k,v in objects.items()}
 
